@@ -9,6 +9,19 @@ TagManager:
   - terreno
   - mainmenumusic
   - camion
+  - bottle1
+  - bottle2
+  - battery
+  - ladrillo
+  - papel
+  - cereal
+  - tacho1
+  - tacho2
+  - tacho3
+  - mesa
+  - firstaid
+  - ammo
+  - potion
   layers:
   - Default
   - TransparentFX

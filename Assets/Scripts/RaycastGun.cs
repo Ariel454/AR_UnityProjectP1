@@ -10,14 +10,15 @@ public class RaycastGun : MonoBehaviour
     public Camera playerCamera;
     public Transform laserOrigin;
     public TMPro.TextMeshProUGUI contadorTexto;
-    public TMPro.TextMeshProUGUI textoVictoria;
+    public TMPro.TextMeshProUGUI textoMunicion;
     public Generador generador;
     public float gunRange = 50f;
     public float fireRate = 0.2f;
     public float laserDuration = 0.05f;
     private int shotsHit = 0;
     private int cubosDestruidos = 0;
-    private int esferasDestruidas = 0;
+    public int municion = 30;
+
     private string textoContador;
 
     private bool juegoTerminado = false;
@@ -39,10 +40,31 @@ public class RaycastGun : MonoBehaviour
         //firstPersonLook.juegoPausado = true;
     }
 
+    public int Municion
+    {
+        get { return municion; }
+        set
+        {
+            municion = value;
+        }
+    }
 
     void Update()
     {
-        fireTimer += Time.deltaTime;
+        if(municion > 0){
+            Disparar();           
+        }
+    }
+ 
+    IEnumerator ShootLaser()
+    {
+        laserLine.enabled = true;
+        yield return new WaitForSeconds(laserDuration);
+        laserLine.enabled = false;
+    }
+
+    void Disparar(){
+                fireTimer += Time.deltaTime;
         if(Input.GetButtonDown("Fire1") && fireTimer > fireRate)
         {
             fireTimer = 0;
@@ -62,7 +84,7 @@ public class RaycastGun : MonoBehaviour
                 {
                     // Si es un cubo, se destruye con 2 disparos
                     shotsHit++;
-                    if (shotsHit >= 2)
+                    if (shotsHit >= 3)
                     {
                     Destroy(hit.transform.gameObject);
                         shotsHit = 0;
@@ -72,29 +94,6 @@ public class RaycastGun : MonoBehaviour
                         //generador.GenerarObjeto("Cubo");
                     }
                 }
-                else
-                {
-                    // Si no tiene ninguna etiqueta, se destruye con 1 disparo
-                    shotsHit++;
-                    if (shotsHit >= 1)
-                    {
-                        Destroy(hit.transform.gameObject);
-                        shotsHit = 0;
-                    }
-                }
-                /*textoContador = "Cubos destruidos: " + cubosDestruidos + "\nEsferas destruidas: " + esferasDestruidas;
-                contadorTexto.text = textoContador;
-
-                if (cubosDestruidos >= 15 && esferasDestruidas >= 10)
-                {
-                    // Muestra un mensaje de victoria y finaliza el juego
-                    textoVictoria.gameObject.SetActive(true);
-                    textoVictoria.text = "¡Ganaste!";
-                    juegoTerminado = true;
-                    // Asegúrate de detener la lógica del juego si es necesario.
-                    DetenerJuego();
-                    return;
-                }*/
 
 
             }
@@ -103,13 +102,10 @@ public class RaycastGun : MonoBehaviour
                 laserLine.SetPosition(1, rayOrigin + (playerCamera.transform.forward * gunRange));
             }
             StartCoroutine(ShootLaser());
+            municion = municion-1;
+            textoMunicion.text = municion.ToString();
         }
     }
- 
-    IEnumerator ShootLaser()
-    {
-        laserLine.enabled = true;
-        yield return new WaitForSeconds(laserDuration);
-        laserLine.enabled = false;
-    }
+
+    
 }

@@ -8,7 +8,7 @@ public class FirstPersonMovement : MonoBehaviour
     [Header("Running")]
     public bool canRun = true;
     public bool IsRunning { get; private set; }
-    public float runSpeed = 9;
+    public float runSpeed = 8;
     public KeyCode runningKey = KeyCode.LeftShift;
 
     new Rigidbody rigidbody;
@@ -40,5 +40,14 @@ public class FirstPersonMovement : MonoBehaviour
 
         // Apply movement.
         rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+    }
+
+        public float RunSpeed
+    {
+        get { return runSpeed; }
+        set
+        {
+            runSpeed = value;
+        }
     }
 }

@@ -28,11 +28,11 @@ public class Enemy : MonoBehaviour
 
     public void Comportamiento_Enemigo()
     {
-        if(Vector3.Distance(transform.position, target.transform.position) > 20)
+        if(Vector3.Distance(transform.position, target.transform.position) > 50)
         {
             ani.SetBool("run", false);
             cronometro += 1 * Time.deltaTime;
-            if(cronometro >= 3)
+            if(cronometro >= 1)
             {
                 rutina = Random.Range(0, 2);
                 cronometro = 0;
@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
                 ani.SetBool("walk", false);
 
                 ani.SetBool("run", true);
-                transform.Translate(Vector3.forward * 2 * Time.deltaTime);
+                transform.Translate(Vector3.forward * 5 * Time.deltaTime);
 
                 ani.SetBool("attack", false);
             }
